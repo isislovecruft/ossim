@@ -41,10 +41,14 @@ Where HS is the hidden service
 *** Time to successful G1 sybil attack
 *** Time to HS discovery/deanonymisation
 
+** Onion Service
+*** Need to simulate guard selection
+*** Need way to choose which pre-built circuit or build one
+
 ** Clients
 *** Need way to pick HS circuit path
 
-** HS Guards
+** Onion Service Guards
 *** Different guard selection algorithms and states for each GN in {G1,G2,G3}?
 *** Reuse guard selection algorithm
 
