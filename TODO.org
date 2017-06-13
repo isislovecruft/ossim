@@ -61,6 +61,7 @@ one on their own is considered primary.
 *** Need way to see which nodes are in the path
 *** Need way to simulate actual little-t tor node selection for path
 
+*** Need way to choose which (already built) server-side circuit is chosen by an HS for a request
 ** Nodes
 *** Need way to determine used/available bandwidth for a Node
 *** Need way to record and report uptime
