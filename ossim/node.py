@@ -3,6 +3,8 @@
 
 import random
 
+import simtime
+
 
 class Node(object):
     def __init__(self, name, port, evil=False, reliability=0.96):
@@ -33,6 +35,15 @@ class Node(object):
         # Some completely made up number for the bandwidth of this guard.
         self._bandwidth = 0
 
+        # When this node was created
+        self._created = 0
+
+        # The amount of time it takes to attempt pwning this node
+        self._pwntime = 0
+
+        # Whether or not this node is currently pwned by an adversary
+        self._pwned = False
+
     def __str__(self):
         """Return the human-readable name for this node."""
         return self._name
@@ -47,6 +58,42 @@ class Node(object):
             self._bandwidth = \
                 int(floor(random.gammavariate(alpha, beta) * bandwidth_max))
         return self._bandwidth
+
+    @property
+    def bandwidthUsed(self):
+        """Determine how much of this node's bandwidth is currently being used."""
+        raise NotImplemented # TODO
+
+    @property
+    def bandwidthAvailable(self):
+        """Determine how much of this node's bandwidth is currently unused."""
+        raise NotImplemented # TODO
+
+    @property
+    def uptime(self):
+        """Get this node's current uptime."""
+        return simtime.now() - self.created
+
+    @property
+    def pwntime(self, alpha=1.0, beta=0.5, median=60*60*24*3):
+        """The amount of time it takes to pwn this node.
+
+        :ivar median: The median amount of time it should take to own this node.
+            By default, three days. (It takes the skids a while to figure out
+            which metasploit module to use.)
+        """
+        if not self._pwntime:
+            self._pwntime = int(floor(random.gammavariate(alpha, beta) * median))
+        return self._pwntime
+
+    @property
+    def pwned(self):
+        """Whether this node is pwned."""
+        return self._pwned
+
+    @pwned.setter
+    def pwned(self, yesOrNo):
+        self._pwned = yesOrNo
 
     @property
     def id(self):
@@ -92,7 +139,3 @@ class Node(object):
         """Mark this node as back on the network."""
         self._dead = False
         self.updateRunning()
-
-
-class Sybil(Node):
-    pass
