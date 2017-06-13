@@ -1,0 +1,78 @@
+# -*- mode: org; coding: utf-8 -*-
+
+* GOALS
+
+** Ensure algorithm/design correctness
+** Ensure algorithm/design completeness
+** Optimise security parameters
+*** Rotation periods
+*** Rotation Speed
+*** Network Topology
+
+
+       G2---G3
+      /  \ /  \
+    G1    X    \
+   /  \  / \    \
+  /    G2---G3---\
+HS                RP
+  \    G2---G3---/
+   \  /  \ /    /
+    G1    X    /
+      \  / \  /
+       G2---G3
+
+Where HS is the hidden service
+
+** Evaluate and optimise performance
+*** Time to first byte sent/received
+*** Time for HS circuit build
+*** Time to download a megabyte
+*** Average bandwidth of server/client sides of HS circuits
+*** Evaluate network load balancing
+**** Determine if/when we are overloading or underusing nodes
+
+* TODO
+
+** Implement prop247 as described in the proposal, version 1.1.
+** Implement further improvements/differences with options (see options.py)
+** Statistics Gathering/Reporting
+*** Time to G1 guard discovery
+*** Time to successful G1 sybil attack
+*** Time to HS discovery/deanonymisation
+
+** Clients
+*** Need way to pick HS circuit path
+
+** HS Guards
+*** Different guard selection algorithms and states for each GN in {G1,G2,G3}?
+*** Reuse guard selection algorithm
+
+The concept of "primary" guards is going to get in the way here,
+so we'll need to run separate instances of the guard selection
+algorithm for each G1, for each G2, and for each G3, such that each
+one on their own is considered primary.
+
+**** Need to actually simulate the guard selection code that landed in tor-0.3.0
+
+** Circuits
+*** Need way to get minimum bandwidth
+*** Need way to get average bandwidth
+*** Need way to see which nodes are in the path
+*** Need way to simulate actual little-t tor node selection for path
+
+** Nodes
+*** Need way to determine used/available bandwidth for a Node
+*** Need way to record and report uptime
+*** Need way to calculate load (current and average)
+
+** Adversaries
+
+"It's like crypto, you have an adversary who has a primitive called
+'sybil' and another adversary with a primitive called 'pop'…"
+
+*** Adversary who can both successfully sybil and compromise HS guards
+*** Adversary who can only sybil
+*** Adversary who can only compromise
+**** Adversary who compromises with exploits
+**** Adversary who compromises with MLATs
